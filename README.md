@@ -9,6 +9,10 @@ so you can easily write the changelog body without fiddling with files and figur
 
 ## Installation
 
+### Prerequisites
+
+You must have `gh` installed and authenticated. See https://cli.github.com/ for installation instructions.
+
 ```sh
 go install github.com/kisunji/gen-changelog@latest
 ```
