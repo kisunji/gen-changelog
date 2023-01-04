@@ -9,7 +9,7 @@ Currently the "Type" options for changelogs [here](https://github.com/kisunji/ge
 
 [gen-changelog-demo.webm](https://user-images.githubusercontent.com/30640057/210468619-dc9374e8-541b-43c1-a245-587b0a69fa99.webm)
 
-## Installation
+## Usage
 
 ### Prerequisites
 
@@ -17,11 +17,17 @@ You must have `gh` installed and authenticated. See https://cli.github.com/ for 
 
 Requires `go1.19` or higher.
 
-### Go install
+### Installing
 
 ```sh
 go install github.com/kisunji/gen-changelog@latest
 ```
+
+### Usage
+
+Currently, `gen-changelog` can only be run in a git repository root where it expects to find the `.changelog` directory.
+
+You can optionally alias the `gen-changelog` to something like `gcl` for ease of typing.
 
 ## Contributing
 
