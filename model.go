@@ -214,7 +214,7 @@ func (m model) View() string {
 		return sb.String()
 	}
 
-	return "loading..."
+	return "Querying GitHub API. This may take a few seconds..."
 }
 
 func pickChangelog() list.Model {
