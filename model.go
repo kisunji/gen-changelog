@@ -125,12 +125,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			case sceneBodyInput:
 				var bb bytes.Buffer
-				bb.WriteString(header)
-				bb.WriteString(m.targetType)
-				bb.WriteString("\n")
-				bb.WriteString(m.body.Value())
-				bb.WriteString("\n")
-				bb.WriteString(footer)
+				bb.WriteString(header + m.targetType + "\n")
+				bb.WriteString(m.body.Value() + "\n")
+				bb.WriteString(footer + "\n")
 
 				if err := os.WriteFile(m.fileName, bb.Bytes(), 0644); err != nil {
 					m.errMsg = err.Error()
