@@ -4,7 +4,6 @@
 automatically generates boilerplate for [`go-changelog`](https://github.com/hashicorp/go-changelog) 
 so you can easily write the changelog body without fiddling with files and figuring out PR numbers.
 
-
 [gen-changelog-demo.webm](https://user-images.githubusercontent.com/30640057/210468619-dc9374e8-541b-43c1-a245-587b0a69fa99.webm)
 
 ## Installation
@@ -12,6 +11,10 @@ so you can easily write the changelog body without fiddling with files and figur
 ### Prerequisites
 
 You must have `gh` installed and authenticated. See https://cli.github.com/ for installation instructions.
+
+Requires `go1.19` or higher.
+
+### Go install
 
 ```sh
 go install github.com/kisunji/gen-changelog@latest
