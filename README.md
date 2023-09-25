@@ -7,7 +7,7 @@ so you can easily write the changelog body without fiddling with files and figur
 Currently the "Type" options for changelogs [here](https://github.com/kisunji/gen-changelog/blob/v1.0.0/main.go#L16-L24) are inferred from
 [hashicorp/consul](https://github.com/hashicorp/consul)'s [template](https://github.com/hashicorp/consul/blob/main/.changelog/changelog.tmpl). Feel free to fork and adjust the options as needed.
 
-[gen-changelog-demo.webm](https://user-images.githubusercontent.com/30640057/210468619-dc9374e8-541b-43c1-a245-587b0a69fa99.webm)
+[demo.webm](https://github.com/kisunji/gen-changelog/assets/30640057/2091eff3-7838-4971-a2ee-a8b73b22a026)
 
 ## Usage
 
