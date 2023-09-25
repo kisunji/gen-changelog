@@ -15,8 +15,6 @@ Currently the "Type" options for changelogs [here](https://github.com/kisunji/ge
 
 You must have `gh` installed and authenticated. See https://cli.github.com/ for installation instructions.
 
-Requires `go1.19` or higher.
-
 ### Installing
 
 ```sh
