@@ -39,7 +39,7 @@ func newModel() model {
 	ti.Prompt = ""
 
 	return model{
-		list: list.NewModel([]list.Item{}, list.NewDefaultDelegate(), 0, 0),
+		list: list.New([]list.Item{}, list.NewDefaultDelegate(), 0, len(releaseNoteTypes)),
 		body: ti,
 	}
 }
@@ -77,8 +77,9 @@ func (m model) Init() tea.Cmd {
 			prListItems[i] = item(pr)
 		}
 
-		l := list.New(prListItems, itemDelegate{}, 30, len(prListItems)+5)
+		l := list.New(prListItems, itemDelegate{}, 30, len(prListItems))
 		l.Title = "Select PR number:"
+		l.SetShowPagination(false)
 		l.SetShowStatusBar(false)
 		l.SetFilteringEnabled(false)
 		l.SetShowHelp(false)
@@ -91,8 +92,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 
 	case tea.WindowSizeMsg:
-		m.list.SetWidth(msg.Width)
-		m.list.SetHeight(msg.Height)
+		// We don't dynamically update size after init
 		return m, nil
 
 	case error:
@@ -141,16 +141,24 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	}
 
 	// If targetPR is set, prompt for changelog type
-	if m.scene < sceneTypeSelect && m.targetPR != "" {
+	if m.scene < sceneTypeSelect && m.targetPR != "" && len(m.list.Items()) == 0 {
 		m.fileName = fmt.Sprintf(".changelog/%s.txt", m.targetPR)
 
 		if _, err := os.ReadFile(m.fileName); err == nil {
-			m.errMsg = m.fileName + " already exists"
+			m.errMsg = m.fileName + " already exists\n"
 			return m, tea.Quit
 		}
 
 		m.scene = sceneTypeSelect
-		m.list = pickChangelog()
+
+		l := list.New(releaseNoteTypes, itemDelegate{}, 30, len(releaseNoteTypes)+3)
+		l.Title = "Select a changelog type:"
+		l.Styles.Title = lipgloss.NewStyle()
+		l.SetShowPagination(false)
+		l.SetShowStatusBar(false)
+		l.SetFilteringEnabled(false)
+		l.SetShowHelp(false)
+		m.list = l
 		return m, nil
 	}
 
@@ -186,7 +194,7 @@ func (m model) View() string {
 	}
 
 	if len(m.list.Items()) > 0 {
-		sb.WriteString(m.list.View() + "\n")
+		sb.WriteString(m.list.View())
 	}
 
 	if m.scene == sceneBodyInput {
@@ -197,13 +205,13 @@ func (m model) View() string {
 			sb.WriteString(m.body.View() + "\n")
 			sb.WriteString(footer + "\n")
 			sb.WriteString("\n")
-			sb.WriteString(lipgloss.NewStyle().Render("(enter to save or ctrl+c to exit)"))
+			sb.WriteString(lipgloss.NewStyle().Render("(enter to save or ctrl+c to exit)\n"))
 		}
 
 	}
 
 	if m.written {
-		sb.WriteString("File written. \n")
+		sb.WriteString("File written.\n")
 	}
 
 	if m.errMsg != "" {
@@ -215,14 +223,4 @@ func (m model) View() string {
 	}
 
 	return "Querying GitHub API. This may take a few seconds..."
-}
-
-func pickChangelog() list.Model {
-	l := list.New(releaseNoteTypes, itemDelegate{}, 30, len(releaseNoteTypes)+5)
-	l.Title = "Select a changelog type:"
-	l.Styles.Title = lipgloss.NewStyle()
-	l.SetShowStatusBar(false)
-	l.SetFilteringEnabled(false)
-	l.SetShowHelp(false)
-	return l
 }
